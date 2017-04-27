@@ -20,7 +20,6 @@ static int callback(void *data, int argc, char **argv, char **azcolname)
 	return 0;
 }
 
-
 int db_exec(sqlite3 *db, char *sql, void *msg)
 {
 	int rc;

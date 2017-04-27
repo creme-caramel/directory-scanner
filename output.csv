@@ -1,2 +1,5 @@
 id,Run,Filtered,lane,mid,number_of_groups_analyzed,number_of_raw_groups,number_of_contaminations,a_to__,a_to_c,a_to_g,a_to_t,c_to_a,c_to__,c_to_g,c_to_t,g_to_a,g_to_c,g_to__,g_to_t,t_to_a,t_to_c,t_to_g,t_to__,__to_a,__to_c,__to_g,__to_t,other,hetero_a_to__,hetero_a_to_c,hetero_a_to_g,hetero_a_to_t,hetero_c_to_a,hetero_c_to__,hetero_c_to_g,hetero_c_to_t,hetero_g_to_a,hetero_g_to_c,hetero_g_to__,hetero_g_to_t,hetero_t_to_a,hetero_t_to_c,hetero_t_to_g,hetero_t_to__,hetero___to_a,hetero___to_c,hetero___to_g,hetero___to_t,hetero_other
 1,2017-04-27,No,2345,15,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2,2017-04-27,No,1,15,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+3,2017-04-27,No,1,15,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+4,2017-04-27,No,1,15,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

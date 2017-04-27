@@ -1,3 +1,4 @@
 main
 table.db
 *.o
+testfiles/*

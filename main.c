@@ -21,6 +21,16 @@ int main()
 	rc = db_exec(db, sql, 0);
 	free(sql);
 
+	FILE *f;
+	char *buf;
+	size_t sz = 0;
+	f = fopen("testfiles/file2.txt", "r");
+	fseek(f, 0, SEEK_SET);
+	while (!feof(f))
+		while (getline(&buf, &sz, f) != -1)
+			printf("%s", buf);
+	fclose(f);
+
 	sql =
 		"insert into my_table (Run, Filtered, lane, mid, c_to_g) " \
 		"values (date('now'), 'No', 1, 15, 3);";

@@ -7,6 +7,8 @@
 #define TABLE_SQL_SIZE 1500
 #define UPPER_POS 280
 #define LOWER_POS 16559
+#define DEFAULT_CUTOFF_GROUPNUM 5
+#define DEFAULT_CUTOFF_FREQ 0.75
 
 void create_table(char *table)
 {
