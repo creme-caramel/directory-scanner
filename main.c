@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 	char *sql;
 	sqlite3 *db;
 
-	rc = sqlite3_open(argv[1], &db);
+	rc = sqlite3_open(argv[4], &db);
 	if(rc) {
 		fprintf(stderr, "sqlite err: %s\n", sqlite3_errmsg(db));
 		return 0;
@@ -21,8 +21,9 @@ int main(int argc, char **argv)
 	rc = db_exec(db, sql, 0);
 	free(sql);
 
+printf("%s\n", argv[1]);
 	FILE *f;
-	f = fopen("testfiles/groupsizes.txt", "r");
+	f = fopen(argv[1], "r");
 	if(f == NULL) {
 		perror("can't open file\n");
 		return -1;

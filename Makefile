@@ -13,10 +13,10 @@ all: main
 main: main.o
 
 test:
-	chmod +x runs
-	./runs main
+	@chmod +x runs
+	@./runs main
 
 clean:
-	rm -f main main.o *.db *.csv
+	@rm -f main main.o *.db *.csv
 
 .PHONY: test clean all

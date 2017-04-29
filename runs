@@ -1,8 +1,31 @@
 #!/usr/bin/env bash
 
-output_filename=output
+path=/home/mimi/Desktop/testing_Whenever
+lane=
+mid=
+filename=output
 streamer=$1
 
-./$streamer $output_filename.db
-sqlite3 -header -csv $output_filename.db "select * from my_table;" > $output_filename.csv
+function traverse() {   
+	for file in $(ls "$1")
+	do
+		if [[ -d ${1}/${file} ]]; then
+			if [[ ${file} =~ lane_[0-9]+ ]]; then
+				lane=${file##*_}			
+				echo "${1}/${file} [lane is ${lane}]"
+			fi
+			if [[ ${file} =~ ^[0-9]+$ ]]; then
+				mid=${file}
+				echo "${1}/${file} [mid is ${mid}]"
+			fi
+			traverse "${1}/${file}"
+		elif [[ ${1}/${file} =~ output.txt ]]; then
+			echo "	${1}/${file}"
+			./$streamer ${1}/${file} $lane $mid $filename.db
+		fi
+	done
+}
+
+traverse $path
+sqlite3 -header -csv $filename.db "select * from my_table;" > $filename.csv
 exit 0
