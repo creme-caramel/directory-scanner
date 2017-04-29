@@ -13,10 +13,10 @@ all: main
 main: main.o
 
 test:
-	./main
-	sqlite3 -header -csv table.db "select * from my_table;" > output.csv
+	chmod +x runs
+	./runs main
 
 clean:
-	rm -f main main.o
+	rm -f main main.o *.db *.csv
 
 .PHONY: test clean all

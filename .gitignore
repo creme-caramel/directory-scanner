@@ -1,4 +1,5 @@
 main
-table.db
+*.db
+*.csv
 *.o
 testfiles/*

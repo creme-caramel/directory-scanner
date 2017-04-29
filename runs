@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+output_filename=output
+streamer=$1
+
+./$streamer $output_filename.db
+sqlite3 -header -csv $output_filename.db "select * from my_table;" > $output_filename.csv
+exit 0

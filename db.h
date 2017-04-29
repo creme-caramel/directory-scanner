@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <sqlite3.h>
 
-const char *dbfile = "table.db";
 const char *call = "callback";
 static char *errmsg = 0;
 

@@ -2,13 +2,13 @@
 #include "db.h"
 #include <stdlib.h>
 
-int main()
+int main(int argc, char **argv)
 {
 	int rc;
 	char *sql;
 	sqlite3 *db;
 
-	rc = sqlite3_open(dbfile, &db);
+	rc = sqlite3_open(argv[1], &db);
 	if(rc) {
 		fprintf(stderr, "sqlite err: %s\n", sqlite3_errmsg(db));
 		return 0;
@@ -22,14 +22,14 @@ int main()
 	free(sql);
 
 	FILE *f;
-	f = fopen("testfiles/file1.txt", "r");
+	f = fopen("testfiles/groupsizes.txt", "r");
 	if(f == NULL) {
 		perror("can't open file\n");
 		return -1;
 	}
 	fseek(f, 0, SEEK_SET);
 
-	char c;
+	unsigned char c;
 	do {
 		c = fgetc(f);
 		if(feof(f)) {
