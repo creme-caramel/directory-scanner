@@ -24,7 +24,7 @@ int main()
 	FILE *f;
 	char *buf;
 	size_t sz = 0;
-	f = fopen("testfiles/file2.txt", "r");
+	f = fopen("testfiles/file1.txt", "r");
 	fseek(f, 0, SEEK_SET);
 	while (!feof(f))
 		while (getline(&buf, &sz, f) != -1)

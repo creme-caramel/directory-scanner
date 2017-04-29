@@ -1,11 +1,12 @@
-FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
-CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
+#FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
+#CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
 
 CC = clang
-CFLAGS = -g -c -Wall -pedantic -Wextra -Wno-unused-parameter 
-LDFLAGS = -L$(CURDIR)/lib -lsqlite3
-RPATH = -Wl,-rpath=$(CURDIR)/lib
-INC = -I$(CURDIR)/inc
+CFLAGS = -g -c -Wall -pedantic -Wextra -Wno-unused-parameter
+LDFLAGS = -lsqlite3
+#LDFLAGS = -L$(CURDIR)/lib -lsqlite3
+#RPATH = -Wl,-rpath=$(CURDIR)/lib
+#INC = -I$(CURDIR)/inc
 
 all: main
 
