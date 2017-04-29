@@ -22,13 +22,30 @@ int main()
 	free(sql);
 
 	FILE *f;
+	f = fopen("testfiles/file1.txt", "r");
+	if(f == NULL) {
+		perror("can't open file\n");
+		return -1;
+	}
+	fseek(f, 0, SEEK_SET);
+
+	char c;
+	do {
+		c = fgetc(f);
+		if(feof(f)) {
+			break;
+		}
+		printf("%c", c);
+	} while(1);
+
+/*
 	char *buf;
 	size_t sz = 0;
-	f = fopen("testfiles/file1.txt", "r");
-	fseek(f, 0, SEEK_SET);
 	while (!feof(f))
 		while (getline(&buf, &sz, f) != -1)
 			printf("%s", buf);
+*/
+
 	fclose(f);
 
 	sql =
