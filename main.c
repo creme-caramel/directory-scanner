@@ -1,6 +1,5 @@
 #include "table_details.h"
 #include "db.h"
-#include <stdlib.h>
 
 int main(int argc, char **argv)
 {
@@ -16,12 +15,6 @@ int main(int argc, char **argv)
 		fprintf(stdout, "db opened.\n");
 	}
 
-	sql = malloc(TABLE_SQL_SIZE);
-	create_table(sql);
-	rc = db_exec(db, sql, 0);
-	free(sql);
-
-printf("%s\n", argv[1]);
 	FILE *f;
 	f = fopen(argv[1], "r");
 	if(f == NULL) {
@@ -36,7 +29,7 @@ printf("%s\n", argv[1]);
 		if(feof(f)) {
 			break;
 		}
-		printf("%c", c);
+		//printf("%c", c);
 	} while(1);
 
 /*
@@ -47,21 +40,22 @@ printf("%s\n", argv[1]);
 			printf("%s", buf);
 */
 
-	fclose(f);
 
+/*
 	sql =
 		"insert into my_table (Run, Filtered, lane, mid, c_to_g) " \
 		"values (date('now'), 'No', 1, 15, 3);";
 	rc = db_exec(db, sql, 0);
 
 	sql =
-		"update my_table set lane = 2345 where ID=1; ";
+		"update my_table set g_to_c = 2345 where ID=1; ";
 	rc = db_exec(db, sql, "hey");
 
 	sql =
-		"select * from my_table";
+		"select * from my_table"; // just for stdout
 	rc = db_exec(db, sql, "hey");
-
+*/
+	fclose(f);
 	sqlite3_close(db);
 	return 0;
 }

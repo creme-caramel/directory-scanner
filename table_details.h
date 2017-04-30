@@ -10,61 +10,6 @@
 #define DEFAULT_CUTOFF_GROUPNUM 5
 #define DEFAULT_CUTOFF_FREQ 0.75
 
-void create_table(char *table)
-{
-	strcpy(table, "create table if not exists my_table (");
-	strcat(table, "id integer primary key autoincrement,"); 
-	strcat(table, "Run text,");
-	strcat(table, "Filtered text default 'No',");
-	strcat(table, "lane integer,"); 
-	strcat(table, "mid integer,"); 
-	strcat(table, "number_of_groups_analyzed integer default 0,"); 
-	strcat(table, "number_of_raw_groups integer default 0,"); 
-	strcat(table, "number_of_contaminations integer default 0,"); 
-	strcat(table, "a_to__ integer default 0,"); 
-	strcat(table, "a_to_c integer default 0,"); 
-	strcat(table, "a_to_g integer default 0,"); 
-	strcat(table, "a_to_t integer default 0,"); 
-	strcat(table, "c_to_a integer default 0,"); 
-	strcat(table, "c_to__ integer default 0,"); 
-	strcat(table, "c_to_g integer default 0,"); 
-	strcat(table, "c_to_t integer default 0,"); 
-	strcat(table, "g_to_a integer default 0,"); 
-	strcat(table, "g_to_c integer default 0,"); 
-	strcat(table, "g_to__ integer default 0,"); 
-	strcat(table, "g_to_t integer default 0,"); 
-	strcat(table, "t_to_a integer default 0,"); 
-	strcat(table, "t_to_c integer default 0,"); 
-	strcat(table, "t_to_g integer default 0,"); 
-	strcat(table, "t_to__ integer default 0,"); 
-	strcat(table, "__to_a integer default 0,"); 
-	strcat(table, "__to_c integer default 0,"); 
-	strcat(table, "__to_g integer default 0,"); 
-	strcat(table, "__to_t integer default 0,"); 
-	strcat(table, "other integer default 0,"); 
-	strcat(table, "hetero_a_to__ integer default 0,"); 
-	strcat(table, "hetero_a_to_c integer default 0,"); 
-	strcat(table, "hetero_a_to_g integer default 0,"); 
-	strcat(table, "hetero_a_to_t integer default 0,"); 
-	strcat(table, "hetero_c_to_a integer default 0,"); 
-	strcat(table, "hetero_c_to__ integer default 0,"); 
-	strcat(table, "hetero_c_to_g integer default 0,"); 
-	strcat(table, "hetero_c_to_t integer default 0,"); 
-	strcat(table, "hetero_g_to_a integer default 0,"); 
-	strcat(table, "hetero_g_to_c integer default 0,"); 
-	strcat(table, "hetero_g_to__ integer default 0,"); 
-	strcat(table, "hetero_g_to_t integer default 0,"); 
-	strcat(table, "hetero_t_to_a integer default 0,"); 
-	strcat(table, "hetero_t_to_c integer default 0,"); 
-	strcat(table, "hetero_t_to_g integer default 0,"); 
-	strcat(table, "hetero_t_to__ integer default 0,"); 
-	strcat(table, "hetero___to_a integer default 0,"); 
-	strcat(table, "hetero___to_c integer default 0,"); 
-	strcat(table, "hetero___to_g integer default 0,"); 
-	strcat(table, "hetero___to_t integer default 0,"); 
-	strcat(table, "hetero_other integer default 0)");
-}
-
 typedef struct cols {
 	unsigned int filtered;
 	unsigned int lane;
