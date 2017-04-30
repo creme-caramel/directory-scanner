@@ -12,11 +12,9 @@
 
 typedef struct cols {
 	unsigned int filtered;
-	unsigned int lane;
-	unsigned int mid;
-	unsigned int num_groups_analyzed;
-	unsigned int num_groups_raw;
-	unsigned int num_of_contaminations;
+	unsigned int number_of_groups_analyzed;
+	unsigned int number_of_raw_groups;
+	unsigned int number_of_contaminations;
 	unsigned int a_to__;
 	unsigned int a_to_c;
 	unsigned int a_to_g;
