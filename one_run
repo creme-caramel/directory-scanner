@@ -87,10 +87,10 @@ function traverse() {
 		elif [[ ${1}/${file} =~ output.txt ]]; then
 
 sqlite3 $filename.db << EOS
-			insert into my_table (Run, Filtered, lane, mid, number_of_groups_analyzed) values (date('now'), 'No', $lane, $mid, $grps);
+			insert into my_table (Run, Filtered, lane, mid, number_of_raw_groups) values (date('now'), 'No', $lane, $mid, $grps);
 EOS
 			(( rowid++ ))
-			./$streamer $filename.db ${1}/groupsizes.txt ${1}/${file} $rowid
+			./$streamer $filename.db ${1}/${file} $rowid
 		fi
 	done
 }

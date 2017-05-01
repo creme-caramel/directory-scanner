@@ -13,7 +13,6 @@
 typedef struct cols {
 	unsigned int filtered;
 	unsigned int number_of_groups_analyzed;
-	unsigned int number_of_raw_groups;
 	unsigned int number_of_contaminations;
 	unsigned int a_to__;
 	unsigned int a_to_c;
