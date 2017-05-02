@@ -1,14 +1,11 @@
-#FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
-#CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
-
 CC = clang
-CFLAGS = -g -c -Wall -pedantic -Wextra -Wno-unused-parameter
+CFLAGS = -g -c -Wall
 LDFLAGS = -lsqlite3
-#LDFLAGS = -L$(CURDIR)/lib -lsqlite3
-#RPATH = -Wl,-rpath=$(CURDIR)/lib
-#INC = -I$(CURDIR)/inc
 
-all: main
+all: muttype.h main
+
+muttype.h: muttype.gperf
+	gperf -t muttype.gperf > muttype.h
 
 main: main.o
 
@@ -17,6 +14,6 @@ test:
 	@./one_run main
 
 clean:
-	@rm -f main main.o *.db *.csv
+	@rm -f main main.o *.db *.csv muttype.h
 
 .PHONY: test clean all

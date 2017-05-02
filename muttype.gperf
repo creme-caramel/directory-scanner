@@ -1,0 +1,65 @@
+%{
+#include <string.h>
+
+enum {
+	A_TO__,
+	A_TO_C,
+	A_TO_G,
+	A_TO_T,
+	C_TO_A,
+	C_TO__,
+	C_TO_G,
+	C_TO_T,
+	G_TO_A,
+	G_TO_C,
+	G_TO__,
+	G_TO_T,
+	T_TO_A,
+	T_TO_C,
+	T_TO_G,
+	T_TO__,
+	__TO_A,
+	__TO_C,
+	__TO_G,
+	__TO_T,
+	OTHER
+};
+
+struct mtype{
+	char *name;
+	int offset;
+};
+%}
+
+%language=ANSI-C
+%struct-type
+struct mtype
+%%
+a_to__, A_TO__
+a_to_c, A_TO_C
+a_to_g, A_TO_G
+a_to_t, A_TO_T
+c_to_a, C_TO_A
+c_to__, C_TO__
+c_to_g, C_TO_G
+c_to_t, C_TO_T
+g_to_a, G_TO_A
+g_to_c, G_TO_C
+g_to__, G_TO__
+g_to_t, G_TO_T
+t_to_a, T_TO_A
+t_to_c, T_TO_C
+t_to_g, T_TO_G
+t_to__, T_TO__
+__to_a, __TO_A
+__to_c, __TO_C
+__to_g, __TO_G
+__to_t, __TO_T
+other,  OTHER
+%%
+
+int get_offset(const char *str)
+{
+	struct mtype *t = in_word_set(str, strlen(str));
+	return t ? t->offset : -1;
+}
