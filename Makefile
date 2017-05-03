@@ -9,11 +9,11 @@ muttype.h: muttype.gperf
 
 main: main.o
 
-test:
-	@chmod +x one_run
-	@./one_run main
+run:
+	@chmod +x run
+	@./run main
 
 clean:
 	@rm -f main main.o *.db *.csv muttype.h
 
-.PHONY: test clean all
+.PHONY: run clean all

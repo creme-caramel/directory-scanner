@@ -1,15 +1,11 @@
 #include "muttype.h"
-#include "table_details.h"
+#include "filter.h"
 #include "db.h"
+#include "tablestruct.h"
 #include <stdlib.h>
 #include <string.h>
 
 #define BUFF 256
-
-void add(mutations *ptr, int offset, int val)
-{
-	*(((int *)ptr) + offset) += val;
-}
 
 int main(int argc, char **argv)
 {
@@ -85,11 +81,13 @@ int main(int argc, char **argv)
 				sscanf(arr[i], "%d", &i_arr[i]);
 				free(arr[i]);
 			}
-			if(i_arr[2] >= 5) {
-
-
-
-				printf("%s\t%d %d %d\n", header, i_arr[0], i_arr[1], i_arr[2]);
+			if(i_arr[2] >= 5) { // by definition of raw groups
+				printf("%s\t%d %d %d", header, i_arr[0], i_arr[1], i_arr[2]);
+				if(isfiltered()) {
+					add(&m, get_offset(header), i_arr[1]);
+					printf("\tadded to: %s (%d)", header, i_arr[1]);
+				}
+				printf("\n");
 			}
 			//printf("%c", c);
 			if(c == '\n') {
@@ -98,8 +96,6 @@ int main(int argc, char **argv)
 		}
 	} while(1);
 	printf("\n");
-	printf("%d %d %d %d\n", get_offset("__to_t"), get_offset("c_to_a"), get_offset("a_to_c"), get_offset("EEE"));
-
 
 /*
 	str = malloc(BUFF);

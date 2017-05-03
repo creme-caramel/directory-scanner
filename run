@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+streamer=$1
+source tablecsv
+path=/home/mimi/Desktop/testing_Whenever
+filename=output
+
+sqlite3 $filename.db << EOS
+$table;
+EOS
+
+lane=
+mid=
+grps=
+rowid=
+function traverse() {
+	for file in $(ls "$1" | sort -n)
+	do
+		if [[ -d ${1}/${file} ]]; then
+			if [[ ${file} =~ lane_[0-9]+ ]]; then
+				lane=${file##*_}
+			fi
+			if [[ ${file} =~ ^[0-9]+$ ]]; then
+				mid=${file}
+				grps=0
+			fi
+			traverse "${1}/${file}"
+
+		elif [[ ${1}/${file} =~ group[0-9]+.fna ]]  && ! [[ ${1}/${file} =~ con* ]]; then
+			count=$(echo $(grep '>' ${1}/${file} | wc -l ))
+			if (( "$count" >= 5 )); then
+				echo $count${1}/${file}
+				(( grps++ ))
+			fi 
+
+		elif [[ ${1}/${file} =~ output.txt ]]; then
+
+sqlite3 $filename.db << EOS
+			insert into my_table (Run, Filtered, lane, mid, number_of_raw_groups) values (date('now'), 'No', $lane, $mid, $grps);
+EOS
+			(( rowid++ ))
+			./$streamer $filename.db ${1}/${file} $rowid
+		fi
+	done
+}
+
+traverse $path
+sqlite3 -header -csv $filename.db "select * from my_table;" > $filename.csv
+
+exit 0

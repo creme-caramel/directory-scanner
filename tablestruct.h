@@ -1,13 +1,8 @@
-#ifndef TABLE_DETAILS_H
-#define TABLE_DETAILS_H
+#ifndef TABLESTRUCT_H
+#define TABLESTRUCT_H
 
 #include <stdio.h>
 #include <string.h>
-
-#define UPPER_POS 280
-#define LOWER_POS 16559
-#define DEFAULT_CUTOFF_GROUPNUM 5
-#define DEFAULT_CUTOFF_FREQ 0.75
 
 typedef struct mutations {
 	int a_to__;
@@ -38,5 +33,10 @@ typedef struct mutation_stats {
 	int number_of_groups_analyzed;
 	int number_of_contaminations;
 } mutation_stats;
+
+void add(mutations *ptr, int offset, int val)
+{
+	*(((int *)ptr) + offset) += val;
+}
 
 #endif
