@@ -1,3 +1,7 @@
+/*
+ * Read output of a single lane+mid case
+ */
+
 #include "muttype.h"
 #include "filter.h"
 #include "db.h"
@@ -9,12 +13,9 @@
 
 int main(int argc, char **argv)
 {
-	//char *str;
-	//size_t str_i;
 	FILE *f;
 	int rc;
 	sqlite3 *db;
-	//cols vals;
 	unsigned char c;
 	mutations m, hm;
 	mutation_stats stats;
@@ -37,8 +38,9 @@ int main(int argc, char **argv)
 		return -1;
 	}
 	fseek(f, 0, SEEK_SET);
-	int on = 0;
-	char header[7];
+
+	char mutname[7]; // will look like 'g_to_c'
+	int readnum = 0;
 	do {
 		c = fgetc(f);
 		if(feof(f)) {
@@ -53,14 +55,21 @@ int main(int argc, char **argv)
 			do {
 				if(c == ' ' || c == ':')
 					c = '_';
-				header[idx++] = c;
+				mutname[idx++] = c;
 				c = fgetc(f);
 			} while (c != ',');
-			header[idx] = '\0';
+			mutname[idx] = '\0';
 			//printf("%s\n", header);
-			on++; // Skip headers
+			readnum++; // done with mutation name
 		}
-		if(on) { // Define next [X,X,X] if any
+		if(readnum) { // define next arr[X,X,X] if exists
+
+			/*
+			 * arr[0] = #group
+			 * arr[1] = freq within the group
+			 * arr[2] = total member in the group
+			 */
+
 			char *arr[3];
 			int i_arr[3];
 			int i;
@@ -82,32 +91,31 @@ int main(int argc, char **argv)
 				free(arr[i]);
 			}
 			if(i_arr[2] >= 5) { // by definition of raw groups
-				printf("%s\t%d %d %d", header, i_arr[0], i_arr[1], i_arr[2]);
-				if(isfiltered()) {
-					add(&m, get_offset(header), i_arr[1]);
-					printf("\tadded to: %s (%d)", header, i_arr[1]);
+				printf("%s\t%d %d %d", mutname, i_arr[0], i_arr[1], i_arr[2]);
+				if(isfiltered()) { // assume true for now
+					add(&m, get_offset(mutname), i_arr[1]);
+					printf("\tadded to: %s (%d)", mutname, i_arr[1]);
 				}
 				printf("\n");
 			}
 			//printf("%c", c);
 			if(c == '\n') {
-				on--;
+				readnum--; // done with numbers
 			}
 		}
 	} while(1);
-	printf("\n");
+	printf("%d %d\n", m.g_to_c, m.__to_g);
 
-/*
+	char *str;
 	str = malloc(BUFF);
-	strcpy(str, "update my_table set number_of_groups_analyzed = ");
-	char temp[3];
-	sprintf(temp, "%u", vals.number_of_groups_analyzed);
-	strcat(str, temp);
+	strcpy(str, "update my_table set ");
+	strcat(str, "g_to_c = ");
+	strcat(str, (const char *)toarr(m.g_to_c));
 	strcat(str, " where ID=");
-	strcat(str, argv[4]);
+	strcat(str, argv[3]);
 	rc = db_exec(db, str, "update");
 	free(str);
-*/
+
 	fclose(f);
 	sqlite3_close(db);
 	return 0;

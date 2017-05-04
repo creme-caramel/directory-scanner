@@ -1,7 +1,6 @@
 #ifndef FILTER_H
 #define FILTER_H
 
-#include <stdio.h>
 
 #define UPPER_POS 280
 #define LOWER_POS 16559

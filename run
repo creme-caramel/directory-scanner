@@ -1,11 +1,22 @@
 #!/usr/bin/env bash
 
-streamer=$1
-source tablecsv
-path=/home/mimi/Desktop/testing_Whenever
-filename=output
+####################################################
+# Specify your paths here:
+#
+from_data_path=/home/mimi/Desktop/testing_Whenever/
+to_csv_path=$(pwd)/
+to_csv_filename=output
+#
+####################################################
 
-sqlite3 $filename.db << EOS
+if [ "$#" -ne 1 ]; then
+	echo "Usage: ./run scan"
+	exit 0
+fi
+
+streamer=$1
+source tabletocreate
+sqlite3 $to_csv_path$to_csv_filename.db << EOS
 $table;
 EOS
 
@@ -35,16 +46,16 @@ function traverse() {
 
 		elif [[ ${1}/${file} =~ output.txt ]]; then
 
-sqlite3 $filename.db << EOS
+sqlite3 $to_csv_path$to_csv_filename.db << EOS
 			insert into my_table (Run, Filtered, lane, mid, number_of_raw_groups) values (date('now'), 'No', $lane, $mid, $grps);
 EOS
 			(( rowid++ ))
-			./$streamer $filename.db ${1}/${file} $rowid
+			./$streamer $to_csv_path$to_csv_filename.db ${1}/${file} $rowid
 		fi
 	done
 }
 
-traverse $path
-sqlite3 -header -csv $filename.db "select * from my_table;" > $filename.csv
+traverse $from_data_path
+sqlite3 -header -csv $to_csv_path$to_csv_filename.db "select * from my_table;" > $to_csv_path$to_csv_filename.csv
 
 exit 0

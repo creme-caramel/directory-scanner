@@ -1,19 +1,27 @@
+FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
+CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
+SRCDIR := $(CURDIR)/src/
+
 CC = clang
 CFLAGS = -g -c -Wall
-LDFLAGS = -lsqlite3
+LDFLAGS = -lsqlite3 -lm
 
-all: muttype.h main
+all: muttype.h scan
 
-muttype.h: muttype.gperf
-	gperf -t muttype.gperf > muttype.h
+muttype.h: $(SRCDIR)muttype.gperf
+	gperf -t $(SRCDIR)muttype.gperf > $(SRCDIR)muttype.h
 
-main: main.o
+scan: scan.o
+	$(CC) scan.o -o scan $(LDFLAGS)
 
+scan.o: $(SRCDIR)scan.c
+	$(CC) $(CFLAGS) $(SRCDIR)scan.c
+	
 run:
 	@chmod +x run
-	@./run main
+	@./run scan
 
 clean:
-	@rm -f main main.o *.db *.csv muttype.h
+	@rm -f scan scan.o *.db *.csv
 
 .PHONY: run clean all
