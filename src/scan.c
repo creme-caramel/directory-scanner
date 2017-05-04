@@ -2,7 +2,7 @@
  * Read output of a single lane+mid case
  */
 
-#include "muttype.h"
+#include "hash/muttype.h"
 #include "filter.h"
 #include "db.h"
 #include "tablestruct.h"

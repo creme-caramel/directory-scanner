@@ -1,7 +1,7 @@
 # scandir
 
-* Scans (through existing output) dir and exports to a csv file
-* Applies (external) filters and ...
+* Scans (through existing output) dir
+* Exports to db/csv
 
 ### To compile
 

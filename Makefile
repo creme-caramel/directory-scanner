@@ -6,10 +6,10 @@ CC = clang
 CFLAGS = -g -c -Wall
 LDFLAGS = -lsqlite3 -lm
 
-all: muttype.h scan
+all: muttypehash scan
 
-muttype.h: $(SRCDIR)muttype.gperf
-	gperf -t $(SRCDIR)muttype.gperf > $(SRCDIR)muttype.h
+muttypehash:
+	gperf -t $(SRCDIR)hash/muttype.gperf > $(SRCDIR)hash/muttype.h
 
 scan: scan.o
 	$(CC) scan.o -o scan $(LDFLAGS)
