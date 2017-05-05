@@ -1,6 +1,7 @@
 FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
 CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
-SRCDIR := $(CURDIR)/src/
+SRC := $(CURDIR)/src/
+INC := -I$(CURDIR)/filters/
 
 CC = clang
 CFLAGS = -g -c -Wall
@@ -9,13 +10,13 @@ LDFLAGS = -lsqlite3 -lm
 all: muttypehash scan
 
 muttypehash:
-	gperf -t $(SRCDIR)hash/muttype.gperf > $(SRCDIR)hash/muttype.h
+	gperf -t $(SRC)hash/muttype.gperf > $(SRC)hash/muttype.h
 
 scan: scan.o
 	$(CC) scan.o -o scan $(LDFLAGS)
 
-scan.o: $(SRCDIR)scan.c
-	$(CC) $(CFLAGS) $(SRCDIR)scan.c
+scan.o: $(SRC)scan.c
+	$(CC) $(CFLAGS) $(INC) $(SRC)scan.c
 	
 run:
 	@chmod +x run

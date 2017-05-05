@@ -3,11 +3,11 @@
  */
 
 #include "hash/muttype.h"
-#include "filter.h"
 #include "db.h"
 #include "tablestruct.h"
 #include <stdlib.h>
 #include <string.h>
+#include <filter.h>
 
 #define BUFF 256
 
