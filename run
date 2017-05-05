@@ -3,7 +3,8 @@
 ####################################################
 # Specify your paths here:
 #
-from_data_path=/home/mimi/Desktop/testing_Whenever/
+from_data_path=/home/mimi/Desktop/april_10/testing_Jan_2014/
+#from_data_path=/home/mimi/Desktop/testing_this/
 to_csv_path=$(pwd)/
 to_csv_filename=output
 #

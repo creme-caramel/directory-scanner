@@ -2,21 +2,20 @@
  * Read output of a single lane+mid case
  */
 
-#include "hash/muttype.h"
+#include "scan.h"
 #include "db.h"
-#include "tablestruct.h"
+#include "hash/muttype.h"
 #include <stdlib.h>
 #include <string.h>
-#include <filter.h>
-
-#define BUFF 256
+// The following filters will be eventually external, to be shared
+#include <mutation/rawgroup.h>
+#include <mutation/true.h>
 
 int main(int argc, char **argv)
 {
 	FILE *f;
 	int rc;
 	sqlite3 *db;
-	unsigned char c;
 	mutations m, hm;
 	mutation_stats stats;
 	
@@ -41,6 +40,7 @@ int main(int argc, char **argv)
 
 	char mutname[7]; // will look like 'g_to_c'
 	int readnum = 0;
+	unsigned char c;
 	do {
 		c = fgetc(f);
 		if(feof(f)) {
@@ -72,6 +72,8 @@ int main(int argc, char **argv)
 
 			char *arr[3];
 			int i_arr[3];
+			size_t useful = 0;
+
 			int i;
 			for(i = 0; i < 3; i++) {
 				size_t idx = 0;
@@ -90,12 +92,15 @@ int main(int argc, char **argv)
 				sscanf(arr[i], "%d", &i_arr[i]);
 				free(arr[i]);
 			}
-			if(i_arr[2] >= 5) { // by definition of raw groups
+
+			useful += within_rawgroup(i_arr[2]);
+			useful += istrue_mutation(i_arr);
+
+			if(useful >= 2) {
 				printf("%s\t%d %d %d", mutname, i_arr[0], i_arr[1], i_arr[2]);
-				if(isfiltered()) { // assume true for now
-					add(&m, get_offset(mutname), i_arr[1]);
-					printf("\tadded to: %s (%d)", mutname, i_arr[1]);
-				}
+				add(&m, get_offset(mutname), i_arr[1]);
+				add(&hm, get_offset(mutname), 1);
+				printf("\tadded to: %s (%d)", mutname, i_arr[1]);
 				printf("\n");
 			}
 			//printf("%c", c);
@@ -104,20 +109,10 @@ int main(int argc, char **argv)
 			}
 		}
 	} while(1);
-	printf("%d %d\n", m.g_to_c, m.__to_g);
-
-	char *str;
-	str = malloc(BUFF);
-	strcpy(str, "update my_table set ");
-	strcat(str, "g_to_c = ");
-	strcat(str, (const char *)toarr(m.g_to_c));
-	strcat(str, " where ID=");
-	strcat(str, argv[3]);
-	rc = db_exec(db, str, "update");
-	free(str);
-
+	//printf("%d %d\n", m.g_to_c, m.__to_g);
+	updatedb(db, argv[3], &m, "");
+	updatedb(db, argv[3], &hm, "hetero_");
 	fclose(f);
 	sqlite3_close(db);
 	return 0;
 }
-

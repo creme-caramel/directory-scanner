@@ -1,10 +1,7 @@
-#ifndef TABLESTRUCT_H
-#define TABLESTRUCT_H
+#ifndef SCAN_H
+#define SCAN_H
 
-#include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
-#include <math.h>
 
 typedef struct mutation_stats {
 	int filtered;
@@ -33,7 +30,7 @@ typedef struct mutations {
 	int __to_c; // offset 17
 	int __to_g; // offset 18
 	int __to_t; // offset 19
-	int other;  // offset 20
+	int other_; // offset 20
 } mutations; 
 
 void add(mutations *ptr, int offset, int val)
@@ -41,12 +38,29 @@ void add(mutations *ptr, int offset, int val)
 	*(((int *)ptr) + offset) += val;
 }
 
-char *toarr(int num)
+void makenamearr(char *arr[])
 {
-	int n = (int)log10(num) + 1;
-	char *arr = calloc(n+1, sizeof(char));
-	snprintf(arr, sizeof(arr), "%d", num);
-	return arr;
+	strcpy(*(arr++), "a_to__");
+	strcpy(*(arr++), "a_to_c");
+	strcpy(*(arr++), "a_to_g");
+	strcpy(*(arr++), "a_to_t");
+	strcpy(*(arr++), "c_to_a");
+	strcpy(*(arr++), "c_to__");
+	strcpy(*(arr++), "c_to_g");
+	strcpy(*(arr++), "c_to_t");
+	strcpy(*(arr++), "g_to_a");
+	strcpy(*(arr++), "g_to_c");
+	strcpy(*(arr++), "g_to__");
+	strcpy(*(arr++), "g_to_t");
+	strcpy(*(arr++), "t_to_a");
+	strcpy(*(arr++), "t_to_c");
+	strcpy(*(arr++), "t_to_g");
+	strcpy(*(arr++), "t_to__");
+	strcpy(*(arr++), "__to_a");
+	strcpy(*(arr++), "__to_c");
+	strcpy(*(arr++), "__to_g");
+	strcpy(*(arr++), "__to_t");
+	strcpy(*(arr), "other_");
 }
 
 #endif

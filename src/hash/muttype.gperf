@@ -22,7 +22,7 @@ enum {
 	__TO_C,
 	__TO_G,
 	__TO_T,
-	OTHER
+	OTHER_
 };
 
 struct mtype{
@@ -55,7 +55,7 @@ __to_a, __TO_A
 __to_c, __TO_C
 __to_g, __TO_G
 __to_t, __TO_T
-other,  OTHER
+other_, OTHER_
 %%
 
 int get_offset(const char *str)

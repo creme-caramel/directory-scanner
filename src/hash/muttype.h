@@ -54,7 +54,7 @@ enum {
 	__TO_C,
 	__TO_G,
 	__TO_T,
-	OTHER
+	OTHER_
 };
 
 struct mtype{
@@ -65,11 +65,11 @@ struct mtype{
 struct mtype;
 
 #define TOTAL_KEYWORDS 21
-#define MIN_WORD_LENGTH 5
+#define MIN_WORD_LENGTH 6
 #define MAX_WORD_LENGTH 6
-#define MIN_HASH_VALUE 5
-#define MAX_HASH_VALUE 56
-/* maximum key range = 52, duplicates = 0 */
+#define MIN_HASH_VALUE 0
+#define MAX_HASH_VALUE 50
+/* maximum key range = 51, duplicates = 0 */
 
 #ifdef __GNUC__
 __inline
@@ -78,54 +78,40 @@ __inline
 inline
 #endif
 #endif
+/*ARGSUSED*/
 static unsigned int
 hash (register const char *str, register unsigned int len)
 {
   static unsigned char asso_values[] =
     {
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 18, 10, 15,  8,  3,
-       5, 57, 57,  0, 25, 57, 57, 57, 57, 57,
-      57,  0, 57, 57, 57, 57, 25,  0, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57, 57, 57, 57,
-      57, 57, 57, 57, 57, 57, 57
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 18, 10, 15,  8,  3,
+       5, 51, 51,  0, 25, 51, 51, 51, 51, 51,
+      51, 28, 51, 51, 51, 51, 25,  0, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51, 51, 51, 51,
+      51, 51, 51, 51, 51, 51, 51
     };
-  register int hval = len;
-
-  switch (hval)
-    {
-      default:
-        hval += asso_values[(unsigned char)str[5]+1];
-      /*FALLTHROUGH*/
-      case 5:
-      case 4:
-      case 3:
-      case 2:
-      case 1:
-        hval += asso_values[(unsigned char)str[0]];
-        break;
-    }
-  return hval;
+  return asso_values[(unsigned char)str[5]+1] + asso_values[(unsigned char)str[0]];
 }
 
 #ifdef __GNUC__
@@ -139,9 +125,6 @@ in_word_set (register const char *str, register unsigned int len)
 {
   static struct mtype wordlist[] =
     {
-      {""}, {""}, {""}, {""}, {""},
-#line 58 "/home/mimi/repos/scandir/src/hash/muttype.gperf"
-      {"other",  OTHER},
 #line 49 "/home/mimi/repos/scandir/src/hash/muttype.gperf"
       {"g_to_t", G_TO_T},
       {""}, {""},
@@ -190,7 +173,10 @@ in_word_set (register const char *str, register unsigned int len)
       {""},
 #line 53 "/home/mimi/repos/scandir/src/hash/muttype.gperf"
       {"t_to__", T_TO__},
-      {""}, {""}, {""}, {""},
+      {""}, {""},
+#line 58 "/home/mimi/repos/scandir/src/hash/muttype.gperf"
+      {"other_", OTHER_},
+      {""},
 #line 40 "/home/mimi/repos/scandir/src/hash/muttype.gperf"
       {"a_to_g", A_TO_G},
       {""}, {""},
