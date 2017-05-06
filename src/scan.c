@@ -38,42 +38,23 @@ int main(int argc, char **argv)
 	}
 	fseek(f, 0, SEEK_SET);
 
+	char *buf;
+	size_t sz = 0;
+	getline(&buf,&sz, f);
+
+	char *pos_str;
+	int pos;
 	char mutname[7]; // will look like 'g_to_c'
 	int readnum = 0;
 	unsigned char c;
 	do {
 		c = fgetc(f);
-		if(feof(f)) {
-			break;
-		}
-		if(c == '.') {
-			do {
-				c = fgetc(f);
-			} while (c != ',');
-			c = fgetc(f);
-			size_t idx = 0;
-			do {
-				if(c == ' ' || c == ':')
-					c = '_';
-				mutname[idx++] = c;
-				c = fgetc(f);
-			} while (c != ',');
-			mutname[idx] = '\0';
-			//printf("%s\n", header);
-			readnum++; // done with mutation name
-		}
-		if(readnum) { // define next arr[X,X,X] if exists
+		if (feof(f)) break;
 
-			/*
-			 * arr[0] = #group
-			 * arr[1] = freq within the group
-			 * arr[2] = total member in the group
-			 */
-
+		if(readnum) {
+			size_t useful = 0;
 			char *arr[3];
 			int i_arr[3];
-			size_t useful = 0;
-
 			int i;
 			for(i = 0; i < 3; i++) {
 				size_t idx = 0;
@@ -94,19 +75,48 @@ int main(int argc, char **argv)
 			}
 
 			useful += within_rawgroup(i_arr[2]);
-			useful += istrue_mutation(i_arr);
+			useful += istrue_mutation(pos, mutname, i_arr);
 
 			if(useful >= 2) {
-				printf("%s\t%d %d %d", mutname, i_arr[0], i_arr[1], i_arr[2]);
+				printf("%d\t%s\t%d %d %d", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
 				add(&m, get_offset(mutname), i_arr[1]);
 				add(&hm, get_offset(mutname), 1);
-				printf("\tadded to: %s (%d)", mutname, i_arr[1]);
 				printf("\n");
 			}
+
+			//printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
 			//printf("%c", c);
-			if(c == '\n') {
-				readnum--; // done with numbers
-			}
+			if(c == '\n') readnum--; // done with numbers
+		}
+
+		if (c == '\n' && !readnum) {
+			c = fgetc(f);
+			size_t idx = 0;
+			pos_str = malloc(1);
+			do {
+				pos_str[idx++] = c;
+				pos_str = realloc(pos_str, idx+1);
+				c = fgetc(f);
+			} while (c != '.');
+			pos_str[idx] = '\0';
+			sscanf(pos_str, "%d", &pos);
+			free(pos_str);
+		}
+
+		if(c == '.' && !readnum) {
+			do {
+				c = fgetc(f);
+			} while (c != ',');
+			c = fgetc(f);
+			size_t idx = 0;
+			do {
+				if(c == ' ' || c == ':')
+					c = '_';
+				mutname[idx++] = c;
+				c = fgetc(f);
+			} while (c != ',');
+			mutname[idx] = '\0';
+			readnum++;
 		}
 	} while(1);
 	//printf("%d %d\n", m.g_to_c, m.__to_g);

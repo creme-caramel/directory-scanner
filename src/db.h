@@ -58,7 +58,7 @@ void updatedb(sqlite3 *db, const char *id, const mutations *m, const char *prefi
 		strcat(sql, arr);
 		if(i < MUTNUM - 1)
 			strcat(sql, ", ");
-		printf("%s%s\t%s\n", prefix, names[i], arr);
+		//printf("%s%s\t%s\n", prefix, names[i], arr);
 	}
 	strcat(sql, " where ID=");
 	strcat(sql, id);
