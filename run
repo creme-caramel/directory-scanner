@@ -5,7 +5,7 @@
 #
 from_data_path=/home/mimi/Desktop/april_10/testing_Jan_2014/
 #from_data_path=/home/mimi/Desktop/testing_this/
-to_csv_path=$(pwd)/
+to_csv_path=$(pwd)/examples/
 to_csv_filename=output
 #
 ####################################################
@@ -51,7 +51,7 @@ sqlite3 $to_csv_path$to_csv_filename.db << EOS
 			insert into my_table (Run, Filtered, lane, mid, number_of_raw_groups) values (date('now'), 'No', $lane, $mid, $grps);
 EOS
 			(( rowid++ ))
-			./$streamer $to_csv_path$to_csv_filename.db ${1}/${file} $rowid
+			./$streamer $to_csv_path$to_csv_filename.db ${1}/${file} $rowid $grps
 		fi
 	done
 }

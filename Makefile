@@ -23,6 +23,6 @@ run:
 	@./run scan
 
 clean:
-	@rm -f scan scan.o *.db *.csv
+	@rm -f scan scan.o */*.db */*.csv
 
 .PHONY: run clean all

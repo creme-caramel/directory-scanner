@@ -7,9 +7,9 @@
 #include "hash/muttype.h"
 #include <stdlib.h>
 #include <string.h>
-// The following filters will be eventually external, to be shared
 #include <mutation/rawgroup.h>
 #include <mutation/true.h>
+#include <mutation/heteroplasmy.h>
 
 int main(int argc, char **argv)
 {
@@ -22,6 +22,11 @@ int main(int argc, char **argv)
 	memset(&m, 0, sizeof(mutations));
 	memset(&hm, 0, sizeof(mutations));
 	memset(&stats, 0, sizeof(mutation_stats));
+
+	int numgrp, numgrp_raw, numgrp_contaminated;
+	sscanf(argv[4], "%d", &numgrp_raw);
+	numgrp_contaminated = 0;
+ 	numgrp = numgrp_raw - numgrp_contaminated;
 
 	// Reopen db
 	rc = sqlite3_open(argv[1], &db);
@@ -46,13 +51,14 @@ int main(int argc, char **argv)
 	int pos;
 	char mutname[7]; // will look like 'g_to_c'
 	int readnum = 0;
+	int numtrue = 0;
 	unsigned char c;
 	do {
 		c = fgetc(f);
 		if (feof(f)) break;
 
 		if(readnum) {
-			size_t useful = 0;
+			size_t true = 0;
 			char *arr[3];
 			int i_arr[3];
 			int i;
@@ -73,20 +79,19 @@ int main(int argc, char **argv)
 				sscanf(arr[i], "%d", &i_arr[i]);
 				free(arr[i]);
 			}
-
-			useful += within_rawgroup(i_arr[2]);
-			useful += istrue_mutation(pos, mutname, i_arr);
-
-			if(useful >= 2) {
-				printf("%d\t%s\t%d %d %d", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
-				add(&m, get_offset(mutname), i_arr[1]);
-				add(&hm, get_offset(mutname), 1);
-				printf("\n");
+			true += within_rawgroup(i_arr[2]);
+			true += istrue_mutation(pos, mutname, i_arr);
+			if(true == 2) {
+				numtrue++;
+				printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
 			}
-
-			//printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
-			//printf("%c", c);
-			if(c == '\n') readnum--; // done with numbers
+			if(c == '\n'){
+				if(numtrue > 0) printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
+				is_heteroplasmy(numtrue, numgrp) ? 
+					add(&hm, get_offset(mutname), numtrue) : add(&m, get_offset(mutname), numtrue);
+				numtrue = 0;
+				readnum--; // done with this pos+mutname line
+			}
 		}
 
 		if (c == '\n' && !readnum) {
@@ -119,7 +124,8 @@ int main(int argc, char **argv)
 			readnum++;
 		}
 	} while(1);
-	//printf("%d %d\n", m.g_to_c, m.__to_g);
+
+	printf("===============================================/%d\n", numgrp);
 	updatedb(db, argv[3], &m, "");
 	updatedb(db, argv[3], &hm, "hetero_");
 	fclose(f);

@@ -1,5 +1,5 @@
 scan
 *.db
-*.csv
+*/*.db
 *.o
 testfiles/*
