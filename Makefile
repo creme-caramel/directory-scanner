@@ -3,7 +3,7 @@ CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
 SRC := $(CURDIR)/src/
 INC := -I$(CURDIR)/filters/
 
-CC = clang
+CC = gcc
 CFLAGS = -g -c -Wall
 LDFLAGS = -lsqlite3 -lm
 
