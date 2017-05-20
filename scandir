@@ -5,37 +5,27 @@
 #
 
 #from_data_path=/home/mimi/Desktop/april_10/testing_Jan_2014/
-from_data_path=/home/lykrysh/Data/testing_this/
+from_data_path=/home/lykrysh/Data/Jan_2014_jarek_processed/
 
-#from_data_dirtype=jan2014 
+from_data_dirtype=jan2014 
 #from_data_dirtype=mar2015
-from_data_dirtype=other 
+#from_data_dirtype=other 
 
-to_csv_path=${from_data_path::-1}_results/
-to_csv_filename=output
+to_csv_path=${from_data_path::-1}_summary/
 
 #
 ####################################################
 
-if [ "$#" -ne 1 ]; then
-	echo "Usage: ./run scan"
-	exit 0
+if [[ ${1} =~ --with-no-* ]]; then
+	to_csv_filename=unfiltered_$(date +"%Y%m%d")_$(date +"%H%M")
+else
+	to_csv_filename=filtered_$(date +"%Y%m%d")_$(date +"%H%M")
 fi
 
 mkdir -p $to_csv_path
+sqlite3 $to_csv_path$to_csv_filename.db < sql/create_table
 
-streamer=$1
-source tabletocreate
-sqlite3 $to_csv_path$to_csv_filename.db << EOS
-$table;
-EOS
-
-lane=
-mid=
-grps=
-rowid=
-
-function traverse() {
+function scandir() {
 	for file in $(ls "$1" | sort -V)
 	do
 		if [[ -d ${1}/${file} ]]; then
@@ -67,7 +57,7 @@ function traverse() {
 				;;
 			*)	;;
 			esac
-			traverse "${1}/${file}" "$2"
+			scandir "${1}/${file}" "$2"
 
 		elif [[ ${1}/${file} =~ group[0-9]+.fna ]]  && ! [[ ${1}/${file} =~ con* ]]; then
 			count=$(echo $(grep '>' ${1}/${file} | wc -l ))
@@ -77,17 +67,16 @@ function traverse() {
 			fi 
 
 		elif [[ ${1}/${file} =~ output.txt ]]; then
-
 sqlite3 $to_csv_path$to_csv_filename.db << EOS
 			insert into my_table (Run, Filtered, lane, mid, number_of_raw_groups) values (date('now'), 'No', $lane, $mid, $grps);
 EOS
 			(( rowid++ ))
-			./$streamer $to_csv_path$to_csv_filename.db ${1}/${file} $rowid $grps
+			./scan $to_csv_path$to_csv_filename.db ${1}/${file} $rowid $grps >> ${to_csv_path}groups_with_true_mut
 		fi
 	done
 }
 
-traverse $from_data_path $from_data_dirtype
+scandir $from_data_path $from_data_dirtype
 sqlite3 -header -csv $to_csv_path$to_csv_filename.db "select * from my_table;" > $to_csv_path$to_csv_filename.csv
-
+rm -f $to_csv_path$to_csv_filename.db
 exit 0

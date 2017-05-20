@@ -18,11 +18,11 @@ scan: scan.o
 scan.o: $(SRC)scan.c
 	$(CC) $(CFLAGS) $(INC) $(SRC)scan.c
 	
-run:
-	@chmod +x run
-	@./run scan
+test:
+	@chmod +x scandir
+	@./scandir --with-no-filters
 
 clean:
-	@rm -f scan scan.o */*.db */*.csv
+	@rm -f scan scan.o
 
-.PHONY: run clean all
+.PHONY: test clean all

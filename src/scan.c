@@ -82,11 +82,15 @@ int main(int argc, char **argv)
 			true += istrue_mutation(pos, mutname, i_arr);
 			if(true == 2) {
 				numtrue++;
-				printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
+				//printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
+				printf("%d\n", i_arr[0]);
+			} 
+			else {
+				//printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
 			}
 			if(c == '\n' || feof(f)) {
 				if(numtrue > 0) {
-					printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
+					//printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
 					is_heteroplasmy(numtrue, numgrp) ? 
 						add(&hm, get_offset(mutname), numtrue) : add(&m, get_offset(mutname), numtrue);
 					numtrue = 0;
@@ -134,7 +138,7 @@ int main(int argc, char **argv)
 		}
 	} while(1);
 
-	printf("===============================================/%d\n", numgrp);
+	//printf("===============================================/%d\n", numgrp);
 	updatedb(db, argv[3], &m, "");
 	updatedb(db, argv[3], &hm, "hetero_");
 	fclose(f);

@@ -10,11 +10,8 @@
 
 ### To run
 
-    make run 
-
-Or, equivalently
-
-    ./run scan
+    ./scandir --with-no-filters
+    ./scandir --with-filters
 
 ### Dependencies
 
