@@ -55,8 +55,7 @@ int main(int argc, char **argv)
 	unsigned char c;
 	do {
 		c = fgetc(f);
-		if (feof(f)) break;
-
+		if(feof(f)) break;
 		if(readnum) {
 			size_t true = 0;
 			char *arr[3];
@@ -85,12 +84,15 @@ int main(int argc, char **argv)
 				numtrue++;
 				printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
 			}
-			if(c == '\n'){
-				if(numtrue > 0) printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
-				is_heteroplasmy(numtrue, numgrp) ? 
-					add(&hm, get_offset(mutname), numtrue) : add(&m, get_offset(mutname), numtrue);
-				numtrue = 0;
+			if(c == '\n' || feof(f)) {
+				if(numtrue > 0) {
+					printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
+					is_heteroplasmy(numtrue, numgrp) ? 
+						add(&hm, get_offset(mutname), numtrue) : add(&m, get_offset(mutname), numtrue);
+					numtrue = 0;
+				}
 				readnum--; // done with this pos+mutname line
+				if(feof(f)) break;
 			}
 		}
 
