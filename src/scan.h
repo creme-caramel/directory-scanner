@@ -10,21 +10,21 @@ typedef struct mutation_stats {
 } mutation_stats;
 
 typedef struct mutations {
-	int a_to__; // offset 0
-	int a_to_c; // offset 1
-	int a_to_g; // offset 2
-	int a_to_t; // offset 3
-	int c_to_a; // offset 4
-	int c_to__; // offset 5
-	int c_to_g; // offset 6
-	int c_to_t; // offset 7
-	int g_to_a; // offset 8
-	int g_to_c; // offset 9
-	int g_to__; // offset 10
-	int g_to_t; // offset 11
-	int t_to_a; // offset 12
-	int t_to_c; // offset 13
-	int t_to_g; // offset 14
+	int a_to_c; // offset 0
+	int a_to_g; // offset 1
+	int a_to_t; // offset 2
+	int c_to_a; // offset 3
+	int c_to_g; // offset 4
+	int c_to_t; // offset 5
+	int g_to_a; // offset 6
+	int g_to_c; // offset 7
+	int g_to_t; // offset 8
+	int t_to_a; // offset 9
+	int t_to_c; // offset 10
+	int t_to_g; // offset 11
+	int a_to__; // offset 12
+	int c_to__; // offset 13
+	int g_to__; // offset 14
 	int t_to__; // offset 15
 	int __to_a; // offset 16
 	int __to_c; // offset 17
@@ -40,21 +40,21 @@ void add(mutations *ptr, int offset, int val)
 
 void makenamearr(char *arr[])
 {
-	strcpy(*(arr++), "a_to__");
 	strcpy(*(arr++), "a_to_c");
 	strcpy(*(arr++), "a_to_g");
 	strcpy(*(arr++), "a_to_t");
 	strcpy(*(arr++), "c_to_a");
-	strcpy(*(arr++), "c_to__");
 	strcpy(*(arr++), "c_to_g");
 	strcpy(*(arr++), "c_to_t");
 	strcpy(*(arr++), "g_to_a");
 	strcpy(*(arr++), "g_to_c");
-	strcpy(*(arr++), "g_to__");
 	strcpy(*(arr++), "g_to_t");
 	strcpy(*(arr++), "t_to_a");
 	strcpy(*(arr++), "t_to_c");
 	strcpy(*(arr++), "t_to_g");
+	strcpy(*(arr++), "a_to__");
+	strcpy(*(arr++), "c_to__");
+	strcpy(*(arr++), "g_to__");
 	strcpy(*(arr++), "t_to__");
 	strcpy(*(arr++), "__to_a");
 	strcpy(*(arr++), "__to_c");
