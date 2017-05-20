@@ -117,8 +117,15 @@ int main(int argc, char **argv)
 			c = fgetc(f);
 			size_t idx = 0;
 			do {
-				if(c == ' ' || c == ':')
-					c = '_';
+				switch(c) {
+				case ' ': c = '_'; break;
+				case ':': c = '_'; break;
+				case 'A': c = 'a'; break;
+				case 'C': c = 'c'; break;
+				case 'G': c = 'g'; break;
+				case 'T': c = 't'; break;
+				default: break;
+				}
 				mutname[idx++] = c;
 				c = fgetc(f);
 			} while (c != ',');
