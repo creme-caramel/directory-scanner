@@ -40,27 +40,27 @@ void add(mutations *ptr, int offset, int val)
 
 void makenamearr(char *arr[])
 {
-	strcpy(*(arr++), "a_to_c");
-	strcpy(*(arr++), "a_to_g");
-	strcpy(*(arr++), "a_to_t");
-	strcpy(*(arr++), "c_to_a");
-	strcpy(*(arr++), "c_to_g");
-	strcpy(*(arr++), "c_to_t");
-	strcpy(*(arr++), "g_to_a");
-	strcpy(*(arr++), "g_to_c");
-	strcpy(*(arr++), "g_to_t");
-	strcpy(*(arr++), "t_to_a");
-	strcpy(*(arr++), "t_to_c");
-	strcpy(*(arr++), "t_to_g");
-	strcpy(*(arr++), "a_to__");
-	strcpy(*(arr++), "c_to__");
-	strcpy(*(arr++), "g_to__");
-	strcpy(*(arr++), "t_to__");
-	strcpy(*(arr++), "__to_a");
-	strcpy(*(arr++), "__to_c");
-	strcpy(*(arr++), "__to_g");
-	strcpy(*(arr++), "__to_t");
-	strcpy(*(arr), "other_");
+	strcpy(*(arr++), "a to c");
+	strcpy(*(arr++), "a to g");
+	strcpy(*(arr++), "a to t");
+	strcpy(*(arr++), "c to a");
+	strcpy(*(arr++), "c to g");
+	strcpy(*(arr++), "c to t");
+	strcpy(*(arr++), "g to a");
+	strcpy(*(arr++), "g to c");
+	strcpy(*(arr++), "g to t");
+	strcpy(*(arr++), "t to a");
+	strcpy(*(arr++), "t to c");
+	strcpy(*(arr++), "t to g");
+	strcpy(*(arr++), "a to :");
+	strcpy(*(arr++), "c to :");
+	strcpy(*(arr++), "g to :");
+	strcpy(*(arr++), "t to :");
+	strcpy(*(arr++), ": to a");
+	strcpy(*(arr++), ": to c");
+	strcpy(*(arr++), ": to g");
+	strcpy(*(arr++), ": to t");
+	strcpy(*(arr), "other");
 }
 
 #endif

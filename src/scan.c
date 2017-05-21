@@ -140,7 +140,7 @@ int main(int argc, char **argv)
 
 	//printf("===============================================/%d\n", numgrp);
 	updatedb(db, argv[3], &m, "");
-	updatedb(db, argv[3], &hm, "hetero_");
+	updatedb(db, argv[3], &hm, "hetero ");
 	fclose(f);
 	sqlite3_close(db);
 	return 0;

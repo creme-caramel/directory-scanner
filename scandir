@@ -68,7 +68,7 @@ function scandir() {
 
 		elif [[ ${1}/${file} =~ output.txt ]]; then
 sqlite3 $to_csv_path$to_csv_filename.db << EOS
-			insert into my_table (Run, Filtered, lane, mid, number_of_raw_groups) values (date('now'), 'No', $lane, $mid, $grps);
+			insert into my_table (Run, Filtered, lane, mid, [number of raw groups]) values (date('now'), 'No', $lane, $mid, $grps);
 EOS
 			(( rowid++ ))
 			./scan $to_csv_path$to_csv_filename.db ${1}/${file} $rowid $grps >> ${to_csv_path}groups_with_true_mut
