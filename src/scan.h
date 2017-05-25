@@ -1,14 +1,6 @@
 #ifndef SCAN_H
 #define SCAN_H
 
-#include <string.h>
-
-typedef struct mutation_stats {
-	int filtered;
-	int number_of_groups_analyzed;
-	int number_of_contaminations;
-} mutation_stats;
-
 typedef struct mutations {
 	int g_to__; // offset 0
 	int g_to_a; // offset 1
@@ -36,31 +28,6 @@ typedef struct mutations {
 void add(mutations *ptr, int offset, int val)
 {
 	*(((int *)ptr) + offset) += val;
-}
-
-void makenamearr(char *arr[])
-{
-	strcpy(*(arr++), "g to :");
-	strcpy(*(arr++), "g to a");
-	strcpy(*(arr++), "g to c");
-	strcpy(*(arr++), "g to t");
-	strcpy(*(arr++), "t to :");
-	strcpy(*(arr++), "t to a");
-	strcpy(*(arr++), "t to c");
-	strcpy(*(arr++), "t to g");
-	strcpy(*(arr++), "c to :");
-	strcpy(*(arr++), "c to a");
-	strcpy(*(arr++), "c to t");
-	strcpy(*(arr++), "c to g");
-	strcpy(*(arr++), "a to :");
-	strcpy(*(arr++), "a to t");
-	strcpy(*(arr++), "a to c");
-	strcpy(*(arr++), "a to g");
-	strcpy(*(arr++), ": to t");
-	strcpy(*(arr++), ": to a");
-	strcpy(*(arr++), ": to c");
-	strcpy(*(arr++), ": to g");
-	strcpy(*(arr), "other");
 }
 
 #endif

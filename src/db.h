@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include <sqlite3.h>
 
 #define BUFF 1024
@@ -35,7 +36,7 @@ static int exec(sqlite3 *db, char *sql, void *msg)
 	return rc;
 }
 
-void insertdb(sqlite3 *db, const char *temp, int gr_a, const char *gr_r, const char *gr_c, const mutations *m, const mutations *hm)
+void insertdb(sqlite3 *db, int gr_a, const char *temp, const char *gr_r, const char *gr_c, const mutations *m, const mutations *hm)
 {
 	char *sql;
 	sql = malloc(BUFF);
@@ -85,44 +86,6 @@ void insertdb(sqlite3 *db, const char *temp, int gr_a, const char *gr_r, const c
 	if (exec(db, sql, "insert") != SQLITE_OK)
 		printf("failed to insert into db table\n");
 	free(sql);
-}
-
-void updatedb(sqlite3 *db, const char *id, const mutations *m, const char *prefix)
-{
-	char *names[MUTNUM];
-	char *sql;
-
-	int i;
-	for(i = 0; i < MUTNUM; i++) {
-		names[i] = malloc(MUTNAMELEN);
-	}
-	makenamearr(names);
-
-	sql = malloc(BUFF);
-	strcpy(sql, "update my_table set ");
-	for(i = 0; i < MUTNUM; i++) {
-		int num = *(((int *)m) + i);
-		char arr[ num > 0 ? (int)log10(num) + 2 : 2];
-		sprintf(arr, "%d", num);
-		strcat(sql, "[");
-		strcat(sql, prefix);
-		strcat(sql, names[i]);
-		strcat(sql, "]");
-		strcat(sql, " = ");
-		strcat(sql, arr);
-		if(i < MUTNUM - 1)
-			strcat(sql, ", ");
-		//printf("%s%s\t%s\n", prefix, names[i], arr);
-	}
-	strcat(sql, " where ID=");
-	strcat(sql, id);
-	if (exec(db, sql, "update") != SQLITE_OK)
-		printf("failed to update db table\n");
-	free(sql);
-
-	for(i = 0; i < MUTNUM; i++) {
-		free(names[i]);
-	}
 }
 
 #endif

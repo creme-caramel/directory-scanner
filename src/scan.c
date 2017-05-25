@@ -17,18 +17,15 @@ int main(int argc, char **argv)
 	int rc;
 	sqlite3 *db;
 	mutations m, hm;
-	mutation_stats stats;
 	
 	memset(&m, 0, sizeof(mutations));
 	memset(&hm, 0, sizeof(mutations));
-	memset(&stats, 0, sizeof(mutation_stats));
 
 	int numgrp, numgrp_raw, numgrp_contaminated;
 	sscanf(argv[4], "%d", &numgrp_raw);
 	sscanf(argv[5], "%d", &numgrp_contaminated);
  	numgrp = numgrp_raw - numgrp_contaminated;
 
-	// Reopen db
 	rc = sqlite3_open(argv[1], &db);
 	if(rc) {
 		fprintf(stderr, "sqlite err: %s\n", sqlite3_errmsg(db));
@@ -135,7 +132,7 @@ int main(int argc, char **argv)
 	} while(1);
 
 	printf("===============================================/%d\n", numgrp);
-	insertdb(db, argv[3], numgrp, argv[4], argv[5], &m, &hm);
+	insertdb(db, numgrp, argv[3], argv[4], argv[5], &m, &hm);
 	fclose(f);
 	sqlite3_close(db);
 	return 0;
