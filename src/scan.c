@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 
 	int numgrp, numgrp_raw, numgrp_contaminated;
 	sscanf(argv[4], "%d", &numgrp_raw);
-	numgrp_contaminated = 0;
+	sscanf(argv[5], "%d", &numgrp_contaminated);
  	numgrp = numgrp_raw - numgrp_contaminated;
 
 	// Reopen db
@@ -80,6 +80,7 @@ int main(int argc, char **argv)
 			if(within_rawgroup(i_arr[2]) && istrue_mutation(pos, i_arr)) {
 				numtrue++;
 				printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
+
 				// printf("%d\n", i_arr[0]); // just group
 				// if(is_subst(mutname)) apply contam filter
 			} 
@@ -133,9 +134,8 @@ int main(int argc, char **argv)
 		}
 	} while(1);
 
-	//printf("===============================================/%d\n", numgrp);
-	updatedb(db, argv[3], &m, "");
-	updatedb(db, argv[3], &hm, "hetero ");
+	printf("===============================================/%d\n", numgrp);
+	insertdb(db, argv[3], numgrp, argv[4], argv[5], &m, &hm);
 	fclose(f);
 	sqlite3_close(db);
 	return 0;

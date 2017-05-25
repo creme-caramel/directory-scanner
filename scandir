@@ -2,7 +2,6 @@
 
 ####################################################
 # Specify your paths here:
-#
 
 from_data_path=/home/lykrysh/Data/march_2015/
 
@@ -11,8 +10,10 @@ from_data_dirtype=1
 #from_data_dirtype=3 
 
 to_csv_path=${from_data_path::-1}_summary/
+rundate=201503
+filtered=no
+num_gr_contaminated=0
 
-#
 ####################################################
 timestamp=$(date +"%Y%m%d")_$(date +"%H%M")
 
@@ -34,7 +35,7 @@ function scandir() {
 				if [[ ${file} =~ [0-9]+_[0-9]+ ]]; then
 					lane=${file##*_}
 					mid=${file%_*}
-					grps=0
+					grps_raw=0
 				fi
 				;;
 			2)
@@ -43,7 +44,7 @@ function scandir() {
 				fi
 				if [[ ${file} =~ [MID]?[0-9]+$ ]]; then
 					mid=${file##*D}
-					grps=0
+					grps_raw=0
 				fi
 				;;
 			3)
@@ -52,7 +53,7 @@ function scandir() {
 				fi
 				if [[ ${file} =~ ^[0-9]+$ ]]; then
 					mid=${file}
-					grps=0
+					grps_raw=0
 				fi
 				;;
 			*)	;;
@@ -63,15 +64,18 @@ function scandir() {
 			count=$(echo $(grep '>' ${1}/${file} | wc -l ))
 			if (( "$count" >= 5 )); then
 				#echo $count${1}/${file}
-				(( grps++ ))
+				(( grps_raw++ ))
 			fi 
 
 		elif [[ ${1}/${file} =~ output.txt ]]; then
-sqlite3 $to_csv_path$to_csv_filename.db << EOS
-			insert into my_table ([data processed/analyzed], Filtered, lane, mid, [number of raw groups]) values (date('now'), 'No', $lane, $mid, $grps);
-EOS
-			(( rowid++ ))
-			./scan $to_csv_path$to_csv_filename.db ${1}/${file} $rowid $grps >> ${to_csv_path}groups_with_true_mut_$timestamp
+			temp=${to_csv_path}temp_$timestamp
+			echo $rundate > $temp
+			echo $(date +"%Y%m%d") >> $temp
+			echo $filtered >> $temp
+			echo $lane >> $temp
+			echo $mid >> $temp
+			./scan $to_csv_path$to_csv_filename.db ${1}/${file} $temp $grps_raw $num_gr_contaminated >> ${to_csv_path}groups_with_true_mut_$timestamp
+			rm -f $temp
 		fi
 	done
 }
