@@ -1,7 +1,7 @@
 FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
 CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
 SRC := $(CURDIR)/src/
-INC := -I$(CURDIR)/filters/
+INC := -I$(CURDIR)/include/
 
 CC = gcc
 CFLAGS = -g -c -Wall

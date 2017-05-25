@@ -7,9 +7,9 @@
 #include "hash/muttype.h"
 #include <stdlib.h>
 #include <string.h>
-#include <mutation/rawgroup.h>
-#include <mutation/true.h>
-#include <mutation/heteroplasmy.h>
+#include <policy/rawgroup.h>
+#include <policy/true.h>
+#include <policy/heteroplasmy.h>
 
 int main(int argc, char **argv)
 {
@@ -51,13 +51,12 @@ int main(int argc, char **argv)
 	int pos;
 	char mutname[7]; // will look like 'g_to_c'
 	int readnum = 0;
-	int numtrue = 0;
+	int numtrue = 0; // on this line
 	unsigned char c;
 	do {
 		c = fgetc(f);
 		if(feof(f)) break;
 		if(readnum) {
-			size_t true = 0;
 			char *arr[3];
 			int i_arr[3];
 			int i;
@@ -78,19 +77,15 @@ int main(int argc, char **argv)
 				sscanf(arr[i], "%d", &i_arr[i]);
 				free(arr[i]);
 			}
-			true += within_rawgroup(i_arr[2]);
-			true += istrue_mutation(pos, mutname, i_arr);
-			if(true == 2) {
+			if(within_rawgroup(i_arr[2]) && istrue_mutation(pos, i_arr)) {
 				numtrue++;
-				//printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
-				printf("%d\n", i_arr[0]);
+				printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
+				// printf("%d\n", i_arr[0]); // just group
+				// if(is_subst(mutname)) apply contam filter
 			} 
-			else {
-				//printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
-			}
 			if(c == '\n' || feof(f)) {
 				if(numtrue > 0) {
-					//printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
+					printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
 					is_heteroplasmy(numtrue, numgrp) ? 
 						add(&hm, get_offset(mutname), numtrue) : add(&m, get_offset(mutname), numtrue);
 					numtrue = 0;

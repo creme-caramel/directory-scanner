@@ -4,22 +4,22 @@
 # Specify your paths here:
 #
 
-#from_data_path=/home/mimi/Desktop/april_10/testing_Jan_2014/
-from_data_path=/home/lykrysh/Data/Jan_2014_jarek_processed/
+from_data_path=/home/lykrysh/Data/march_2015/
 
-from_data_dirtype=jan2014 
-#from_data_dirtype=mar2015
-#from_data_dirtype=other 
+from_data_dirtype=1 
+#from_data_dirtype=2
+#from_data_dirtype=3 
 
 to_csv_path=${from_data_path::-1}_summary/
 
 #
 ####################################################
+timestamp=$(date +"%Y%m%d")_$(date +"%H%M")
 
 if [[ ${1} =~ --with-no-* ]]; then
-	to_csv_filename=unfiltered_$(date +"%Y%m%d")_$(date +"%H%M")
+	to_csv_filename=unfiltered_$timestamp
 else
-	to_csv_filename=filtered_$(date +"%Y%m%d")_$(date +"%H%M")
+	to_csv_filename=filtered_$timestamp
 fi
 
 mkdir -p $to_csv_path
@@ -30,14 +30,14 @@ function scandir() {
 	do
 		if [[ -d ${1}/${file} ]]; then
 			case "$2" in
-			jan2014)
+			1)
 				if [[ ${file} =~ [0-9]+_[0-9]+ ]]; then
 					lane=${file##*_}
 					mid=${file%_*}
 					grps=0
 				fi
 				;;
-			mar2015)
+			2)
 				if [[ ${file} =~ run[0-9]+ ]]; then
 					lane=${file##*n}
 				fi
@@ -46,7 +46,7 @@ function scandir() {
 					grps=0
 				fi
 				;;
-			other)
+			3)
 				if [[ ${file} =~ lane_[0-9]+ ]]; then
 					lane=${file##*_}
 				fi
@@ -71,7 +71,7 @@ sqlite3 $to_csv_path$to_csv_filename.db << EOS
 			insert into my_table (Run, Filtered, lane, mid, [number of raw groups]) values (date('now'), 'No', $lane, $mid, $grps);
 EOS
 			(( rowid++ ))
-			./scan $to_csv_path$to_csv_filename.db ${1}/${file} $rowid $grps >> ${to_csv_path}groups_with_true_mut
+			./scan $to_csv_path$to_csv_filename.db ${1}/${file} $rowid $grps >> ${to_csv_path}groups_with_true_mut_$timestamp
 		fi
 	done
 }

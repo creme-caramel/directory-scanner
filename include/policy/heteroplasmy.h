@@ -10,6 +10,9 @@
 
 #define CUTOFF 0.02
 
+/*
+ * of mutation type (>= CUTOFF)
+ */
 int is_heteroplasmy(const int members, const int grp)
 {
 	double ratio = (double)members / (double)grp;
