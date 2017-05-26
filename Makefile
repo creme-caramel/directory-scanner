@@ -5,19 +5,21 @@ DB := $(SRC)db/
 INC := -I$(CURDIR)/include/
 
 CC = gcc
-CFLAGS = -g -c -Wall
+CFLAGS = -g -Wall
 LDFLAGS = -lsqlite3 -lm
+BIN = $(SRC)scan
 
-all: muttypehash scan
+all: muttypehash $(BIN)
 
 muttypehash:
 	gperf -t $(SRC)hash/muttype.gperf > $(SRC)hash/muttype.h
 
-scan: scan.o $(DB)/db.o
-	$(CC) scan.o $(DB)/db.o -o scan $(LDFLAGS)
+$(BIN): $(SRC)scan.o $(DB)/db.o
+	$(CC) $(SRC)scan.o $(DB)/db.o -o $(SRC)scan $(LDFLAGS)
+	@ln -s $(SRC)scan $(CURDIR)/scan
 
-scan.o: $(SRC)scan.c
-	$(CC) $(CFLAGS) $(INC) $(SRC)scan.c
+$(SRC)scan.o: $(SRC)scan.c
+	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 $(DB)/db.o: $(DB)/db.c
 	$(CXX) $(CFLAGS) -c -o $@ $<
@@ -27,6 +29,6 @@ test:
 	@./scandir --with-no-filters
 
 clean:
-	@rm -f scan scan.o $(DB)/db.o
+	@rm -f scan $(SRC)scan.o $(DB)/db.o $(BIN)
 
 .PHONY: test clean all
