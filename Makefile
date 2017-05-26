@@ -5,7 +5,7 @@ DB := $(SRC)db/
 INC := -I$(CURDIR)/include/
 
 CC = gcc
-CFLAGS = -g -Wall -fPIC
+CFLAGS = -g -Wall
 LDFLAGS = -lsqlite3 -lm
 BIN = $(SRC)scan
 
