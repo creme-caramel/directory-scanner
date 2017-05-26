@@ -3,7 +3,7 @@
  */
 
 #include "scan.h"
-#include "db.h"
+#include "db/db.h"
 #include "hash/muttype.h"
 #include <stdlib.h>
 #include <string.h>
@@ -59,10 +59,10 @@ int main(int argc, char **argv)
 			int i;
 			for(i = 0; i < 3; i++) {
 				size_t idx = 0;
-				arr[i] = malloc(1);
+				arr[i] = (char *)malloc(1);
 				do {
 					arr[i][idx++] = c;
-					arr[i] = realloc(arr[i], idx+1);
+					arr[i] = (char *)realloc(arr[i], idx+1);
 					c = fgetc(f);
 					if(feof(f)) {
 						break;
@@ -96,10 +96,10 @@ int main(int argc, char **argv)
 		if (c == '\n' && !readnum) {
 			c = fgetc(f);
 			size_t idx = 0;
-			pos_str = malloc(1);
+			pos_str = (char *)malloc(1);
 			do {
 				pos_str[idx++] = c;
-				pos_str = realloc(pos_str, idx+1);
+				pos_str = (char *)realloc(pos_str, idx+1);
 				c = fgetc(f);
 			} while (c != '.');
 			pos_str[idx] = '\0';

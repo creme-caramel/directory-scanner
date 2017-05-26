@@ -14,6 +14,36 @@
 
 static char *errmsg = 0;
 
+typedef struct mutations {
+	int g_to__; // offset 0
+	int g_to_a; // offset 1
+	int g_to_c; // offset 2
+	int g_to_t; // offset 3
+	int t_to__; // offset 4
+	int t_to_a; // offset 5
+	int t_to_c; // offset 6
+	int t_to_g; // offset 7
+	int c_to__; // offset 8
+	int c_to_a; // offset 9
+	int c_to_t; // offset 10
+	int c_to_g; // offset 11
+	int a_to__; // offset 12
+	int a_to_t; // offset 13
+	int a_to_c; // offset 14
+	int a_to_g; // offset 15
+	int __to_t; // offset 16
+	int __to_a; // offset 17
+	int __to_c; // offset 18
+	int __to_g; // offset 19
+	int other_; // offset 20
+} mutations; 
+
+void add(mutations *ptr, int offset, int val)
+{
+	*(((int *)ptr) + offset) += val;
+}
+
+
 static int callback(void *data, int argc, char **argv, char **azcolname)
 {
 	int i;
@@ -39,7 +69,7 @@ static int exec(sqlite3 *db, char *sql, void *msg)
 void insertdb(sqlite3 *db, int gr_a, const char *temp, const char *gr_r, const char *gr_c, const mutations *m, const mutations *hm)
 {
 	char *sql;
-	sql = malloc(BUFF);
+	sql = (char *)malloc(BUFF);
 	strcpy(sql, "insert into my_table values (null,");
 
 	FILE *f = fopen(temp, "r");
@@ -83,7 +113,8 @@ void insertdb(sqlite3 *db, int gr_a, const char *temp, const char *gr_r, const c
 	strcat(sql, ");");
 	//printf("%s\n", sql);
 
-	if (exec(db, sql, "insert") != SQLITE_OK)
+	void *inc = (void *)"insert";
+	if (exec(db, sql, inc) != SQLITE_OK)
 		printf("failed to insert into db table\n");
 	free(sql);
 }
