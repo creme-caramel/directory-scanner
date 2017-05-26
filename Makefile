@@ -12,13 +12,7 @@ BIN = $(SRC)scan
 RPATH = -Wl,-rpath=$(DB) -L$(DB) 
 LIBS = -ldb
 
-all: muttypehash db $(BIN)
-
-muttypehash:
-	gperf -t $(SRC)hash/muttype.gperf > $(SRC)hash/muttype.h
-
-db: $(DB)db.o
-	$(CC) -shared -o $(DB)libdb.so $(DB)db.o 
+all: $(BIN)
 
 $(BIN): $(SRC)scan.o
 	$(CC) $(SRC)scan.o -o $(SRC)scan $(RPATH) $(LIBS) $(LDFLAGS)
@@ -26,9 +20,6 @@ $(BIN): $(SRC)scan.o
 
 $(SRC)scan.o: $(SRC)scan.c
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
-
-$(DB)/db.o: $(DB)/db.c
-	$(CXX) $(CFLAGS) -c -o $@ $<
 	
 test:
 	@chmod +x scandir
