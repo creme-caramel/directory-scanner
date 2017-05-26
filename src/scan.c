@@ -2,7 +2,6 @@
  * Read output of a single lane+mid case
  */
 
-#include "scan.h"
 #include "db/db.h"
 #include "hash/muttype.h"
 #include <stdlib.h>
