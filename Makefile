@@ -5,17 +5,23 @@ DB := $(SRC)db/
 INC := -I$(CURDIR)/include/
 
 CC = gcc
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -fPIC
 LDFLAGS = -lsqlite3 -lm
 BIN = $(SRC)scan
 
-all: muttypehash $(BIN)
+RPATH = -Wl,-rpath=$(DB) -L$(DB) 
+LIBS = -ldb
+
+all: muttypehash db $(BIN)
 
 muttypehash:
 	gperf -t $(SRC)hash/muttype.gperf > $(SRC)hash/muttype.h
 
-$(BIN): $(SRC)scan.o $(DB)/db.o
-	$(CC) $(SRC)scan.o $(DB)/db.o -o $(SRC)scan $(LDFLAGS)
+db: $(DB)db.o
+	$(CC) -shared -o $(DB)libdb.so $(DB)db.o 
+
+$(BIN): $(SRC)scan.o
+	$(CC) $(SRC)scan.o -o $(SRC)scan $(RPATH) $(LIBS) $(LDFLAGS)
 	@ln -s $(SRC)scan $(CURDIR)/scan
 
 $(SRC)scan.o: $(SRC)scan.c
