@@ -75,10 +75,9 @@ int main(int argc, char **argv)
 			}
 			if(within_rawgroup(i_arr[2]) && istrue_mutation(pos, i_arr)) {
 				numtrue++;
-				printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
-
-				// printf("%d\n", i_arr[0]); // just group
-				// if(is_subst(mutname)) apply contam filter
+				//printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
+				//if(is_subst(mutname))
+					printf("%d ", i_arr[0]); // just group
 			} 
 			if(c == '\n' || feof(f)) {
 				if(numtrue > 0) {
@@ -130,7 +129,8 @@ int main(int argc, char **argv)
 		}
 	} while(1);
 
-	printf("===============================================/%d\n", numgrp);
+	//printf("===============================================/%d\n", numgrp);
+	printf("\n");
 	insertdb(db, numgrp, argv[3], argv[4], argv[5], &m, &hm);
 	fclose(f);
 	sqlite3_close(db);
