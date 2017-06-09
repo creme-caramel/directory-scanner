@@ -100,6 +100,8 @@ EOS
 }
 
 scandir $from_data_path $from_data_dirtype
-sqlite3 -header -csv $to_csv_path$to_csv_filename.db "select * from mutation_table;" > $to_csv_path$to_csv_filename.csv
+sqlite3 -header -csv $to_csv_path$to_csv_filename.db "select * from mutation_table;" > ${to_csv_path}${to_csv_filename}.csv
+sqlite3 -header -csv $to_csv_path$to_csv_filename.db "select * from group_table;" > ${to_csv_path}${to_csv_filename}_group.csv
+sqlite3 -header -csv $to_csv_path$to_csv_filename.db "select * from uber_table;" > ${to_csv_path}${to_csv_filename}_uber.csv
 #rm -f $to_csv_path$to_csv_filename.db
 exit 0
