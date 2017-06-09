@@ -20,10 +20,11 @@ int main(int argc, char **argv)
 	memset(&m, 0, sizeof(mutations));
 	memset(&hm, 0, sizeof(mutations));
 
-	int numgrp, numgrp_raw, numgrp_contaminated;
+	int numgrp, numgrp_raw, numgrp_contaminated, sample_id;
 	sscanf(argv[4], "%d", &numgrp_raw);
 	sscanf(argv[5], "%d", &numgrp_contaminated);
  	numgrp = numgrp_raw - numgrp_contaminated;
+	sscanf(argv[6], "%d", &sample_id);
 
 	rc = sqlite3_open(argv[1], &db);
 	if(rc) {
@@ -75,15 +76,19 @@ int main(int argc, char **argv)
 			}
 			if(within_rawgroup(i_arr[2]) && istrue_mutation(pos, i_arr)) {
 				numtrue++;
-				//printf("%d\t%s\t%d %d %d\n", pos, mutname, i_arr[0], i_arr[1], i_arr[2]);
-				//if(is_subst(mutname))
-					printf("%d ", i_arr[0]); // just group
+				printf("%d %d %d %d %d %d ", sample_id, i_arr[0], pos, get_offset(mutname), i_arr[1], i_arr[2]);
+				printf("%d\n", is_subst(mutname));
 			} 
 			if(c == '\n' || feof(f)) {
 				if(numtrue > 0) {
-					printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
-					is_heteroplasmy(numtrue, numgrp) ? 
-						add(&hm, get_offset(mutname), numtrue) : add(&m, get_offset(mutname), numtrue);
+					//printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
+					if(is_heteroplasmy(numtrue, numgrp)) {
+						add(&hm, get_offset(mutname), numtrue);
+						printf("#1\n");
+					} else {
+						add(&m, get_offset(mutname), numtrue);
+						printf("#0\n");
+					}
 					numtrue = 0;
 				}
 				readnum--; // done with this pos+mutname line
@@ -129,8 +134,8 @@ int main(int argc, char **argv)
 		}
 	} while(1);
 
-	//printf("===============================================/%d\n", numgrp);
-	printf("\n");
+	//printf("===============================================/%d\n", argv[5]);
+	//printf("\n");
 	insertdb(db, numgrp, argv[3], argv[4], argv[5], &m, &hm);
 	fclose(f);
 	sqlite3_close(db);

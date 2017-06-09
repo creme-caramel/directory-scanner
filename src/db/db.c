@@ -31,7 +31,7 @@ void insertdb(sqlite3 *db, int gr_a, const char *temp, const char *gr_r, const c
 {
 	char *sql;
 	sql = (char *)malloc(BUFF);
-	strcpy(sql, "insert into my_table values (null,");
+	strcpy(sql, "insert into mutation_table values (null,");
 
 	FILE *f = fopen(temp, "r");
 	fseek(f, 0, SEEK_SET);
