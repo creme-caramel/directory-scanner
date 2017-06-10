@@ -1,5 +1,5 @@
 /* ANSI-C code produced by gperf version 3.0.4 */
-/* Command-line: gperf -t /home/lykrysh/Repos/scandir/src/hash/muttype.gperf  */
+/* Command-line: gperf -t /home/lykrysh/Repos/scandir/hash/muttype.gperf  */
 /* Computed positions: -k'1,6' */
 
 #if !((' ' == 32) && ('!' == 33) && ('"' == 34) && ('#' == 35) \
@@ -29,7 +29,7 @@
 #error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gnu-gperf@gnu.org>."
 #endif
 
-#line 1 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 1 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
 
 #include <string.h>
 
@@ -61,7 +61,7 @@ struct mtype{
 	char *name;
 	int offset;
 };
-#line 36 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 36 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
 struct mtype;
 
 #define TOTAL_KEYWORDS 21
@@ -125,65 +125,65 @@ in_word_set (register const char *str, register unsigned int len)
 {
   static struct mtype wordlist[] =
     {
-#line 41 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 41 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"g_to_t", G_TO_T},
       {""}, {""},
-#line 48 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 48 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"c_to_t", C_TO_T},
       {""},
-#line 40 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 40 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"g_to_c", G_TO_C},
       {""}, {""},
-#line 39 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 39 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"g_to_a", G_TO_A},
       {""},
-#line 38 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 38 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"g_to__", G_TO__},
-#line 47 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 47 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"c_to_a", C_TO_A},
       {""},
-#line 46 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 46 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"c_to__", C_TO__},
       {""},
-#line 51 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 51 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"a_to_t", A_TO_T},
       {""}, {""},
-#line 54 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 54 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"__to_t", __TO_T},
       {""},
-#line 52 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 52 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"a_to_c", A_TO_C},
       {""}, {""},
-#line 56 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 56 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"__to_c", __TO_C},
       {""},
-#line 50 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 50 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"a_to__", A_TO__},
-#line 55 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 55 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"__to_a", __TO_A},
       {""},
-#line 49 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 49 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"c_to_g", C_TO_G},
       {""},
-#line 44 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 44 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"t_to_c", T_TO_C},
       {""}, {""},
-#line 43 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 43 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"t_to_a", T_TO_A},
       {""},
-#line 42 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 42 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"t_to__", T_TO__},
       {""}, {""},
-#line 58 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 58 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"other_", OTHER_},
       {""},
-#line 53 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 53 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"a_to_g", A_TO_G},
       {""}, {""},
-#line 57 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 57 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"__to_g", __TO_G},
       {""}, {""}, {""}, {""}, {""}, {""},
-#line 45 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 45 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
       {"t_to_g", T_TO_G}
     };
 
@@ -201,7 +201,7 @@ in_word_set (register const char *str, register unsigned int len)
     }
   return 0;
 }
-#line 59 "/home/lykrysh/Repos/scandir/src/hash/muttype.gperf"
+#line 59 "/home/lykrysh/Repos/scandir/hash/muttype.gperf"
 
 
 int get_offset(const char *str)

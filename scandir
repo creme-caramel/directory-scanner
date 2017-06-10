@@ -66,24 +66,27 @@ function scandir() {
 		elif [[ ${1}/${file} =~ consgroup[0-9]+.fna ]]; then
 			thisfile=${1}/${file}
 			grpid=${thisfile##*p}
-			grpid=${grpid%.*}			
+			grpid=${grpid%.*}
 			grpconsensus=$(sed "6q;d" ${thisfile});
 
 			if (( "$grpid" == 1 )); then
 				ubrconsensus=$(sed "4q;d" ${thisfile});
-sqlite3 $to_csv_path$to_csv_filename.db << EOS
-insert into uber_table values (null, '$rundate', '$(date +"%Y%m%d")', $lane, $mid, '$ubrconsensus');
+
+				sqlite3 $to_csv_path$to_csv_filename.db << EOS
+				insert into uber_table values (null, '$rundate', '$(date +"%Y%m%d")', $lane, $mid, '$ubrconsensus');
 EOS
+
 			fi
 
-sqlite3 $to_csv_path$to_csv_filename.db << EOS
-insert into group_table values (null, '$rundate', '$(date +"%Y%m%d")', $lane, $mid, $grpid, '$grpconsensus');
+			sqlite3 $to_csv_path$to_csv_filename.db << EOS
+			insert into group_table values (null, '$rundate', '$(date +"%Y%m%d")', $lane, $mid, $grpid, '$grpconsensus');
 EOS
+
 		elif [[ ${1}/${file} =~ group[0-9]+.fna ]]  && ! [[ ${1}/${file} =~ con* ]]; then
 			count=$(echo $(grep '>' ${1}/${file} | wc -l ))
 			if (( "$count" >= 5 )); then
 				(( grps_raw++ ))
-			fi 
+			fi
 
 		elif [[ ${1}/${file} =~ output.txt ]]; then
 			temp=${to_csv_path}temp_$timestamp

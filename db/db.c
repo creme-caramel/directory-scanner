@@ -1,4 +1,5 @@
 #include "db.h"
+char *errmsg = 0;
 
 void add(mutations *ptr, int offset, int val)
 {

@@ -12,8 +12,6 @@
 #define MUTNUM 21	// #elements in struct mutations
 #define MUTNAMELEN 24	// like "g_to_c"
 
-char *errmsg = 0;
-
 typedef struct mutations {
 	int g_to__; // offset 0
 	int g_to_a; // offset 1

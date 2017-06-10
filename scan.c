@@ -2,13 +2,13 @@
  * Read output of a single lane+mid case
  */
 
-#include "db/db.h"
-#include "hash/muttype.h"
-#include <stdlib.h>
-#include <string.h>
+#include <db/db.h>
+#include <hash/muttype.h>
 #include <policy/rawgroup.h>
 #include <policy/true.h>
 #include <policy/heteroplasmy.h>
+#include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char **argv)
 {

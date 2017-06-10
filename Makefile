@@ -1,40 +1,40 @@
 FILEPATH := $(realpath $(lastword $(MAKEFILE_LIST)))
 CURDIR := $(shell cd $(dir $(FILEPATH));pwd)
-SRC := $(CURDIR)/src/
-DB := $(SRC)db/
-INC := -I$(CURDIR)/include/
+DBDIR := $(CURDIR)/db
+HSDIR := $(CURDIR)/hash
+INC := -I$(CURDIR)
 
 CC = gcc
 CFLAGS = -g -Wall -fPIC
 LDFLAGS = -lsqlite3 -lm
-BIN = $(SRC)scan
+BIN = scan
 
-RPATH = -Wl,-rpath=$(DB) -L$(DB) 
+RPATH = -Wl,-rpath=$(DBDIR) -L$(DBDIR) 
 LIBS = -ldb
 
 all: muttypehash db $(BIN)
 
 muttypehash:
-	gperf -t $(SRC)hash/muttype.gperf > $(SRC)hash/muttype.h
+	gperf -t $(HSDIR)/muttype.gperf > $(HSDIR)/muttype.h
 
-db: $(DB)db.o
-	$(CC) -shared -o $(DB)libdb.so $(DB)db.o 
+db: $(DBDIR)/db.o
+	$(CC) -shared -o $(DBDIR)/libdb.so $(DBDIR)/db.o 
 
-$(BIN): $(SRC)scan.o
-	$(CC) $(SRC)scan.o -o $(SRC)scan $(RPATH) $(LIBS) $(LDFLAGS)
-	@ln -s $(SRC)scan $(CURDIR)/scan
+$(BIN): scan.o $(DBDIR)/db.o
+	$(CC) scan.o -o scan $(RPATH) $(LIBS) $(LDFLAGS)
+#	$(CC) scan.o $(DBDIR)/db.o -o scan $(LDFLAGS)
 
-$(SRC)scan.o: $(SRC)scan.c
+scan.o: scan.c
 	$(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
-$(DB)/db.o: $(DB)/db.c
-	$(CXX) $(CFLAGS) -c -o $@ $<
+$(DBDIR)/db.o: $(DBDIR)/db.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 	
 test:
 	@chmod +x scandir
 	@./scandir --with-no-filters
 
 clean:
-	@rm -f scan $(SRC)scan.o $(DB)/db.o $(BIN)
+	@rm -f scan scan.o $(DBDIR)/db.o $(BIN)
 
 .PHONY: test clean all
