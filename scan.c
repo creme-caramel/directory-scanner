@@ -135,7 +135,7 @@ int main(int argc, char **argv)
 	} while(1);
 
 	//printf("===============================================/%d\n", argv[5]);
-	//printf("\n");
+	printf("EOS\n");
 	insertdb(db, numgrp, argv[3], argv[4], argv[5], &m, &hm);
 	fclose(f);
 	sqlite3_close(db);
