@@ -76,18 +76,17 @@ int main(int argc, char **argv)
 			}
 			if(within_rawgroup(i_arr[2]) && istrue_mutation(pos, i_arr)) {
 				numtrue++;
-				printf("%d %d %d %d %d %d ", sample_id, i_arr[0], pos, get_offset(mutname), i_arr[1], i_arr[2]);
-				printf("%d\n", is_subst(mutname));
+				printf("%d %d\n", i_arr[0], i_arr[1]); // grpID, freq
 			} 
 			if(c == '\n' || feof(f)) {
 				if(numtrue > 0) {
 					//printf("\t\t\t\tTRUE MEMBERS = %d\n", numtrue);
 					if(is_heteroplasmy(numtrue, numgrp)) {
 						add(&hm, get_offset(mutname), numtrue);
-						printf("#1\n");
+						printf("# %d %d %d %d 1\n", i_arr[2], pos, get_offset(mutname), is_subst(mutname));
 					} else {
 						add(&m, get_offset(mutname), numtrue);
-						printf("#0\n");
+						printf("# %d %d %d %d 0\n", i_arr[2], pos, get_offset(mutname), is_subst(mutname));
 					}
 					numtrue = 0;
 				}
@@ -134,7 +133,6 @@ int main(int argc, char **argv)
 		}
 	} while(1);
 
-	//printf("===============================================/%d\n", argv[5]);
 	printf("EOS\n");
 	insertdb(db, numgrp, argv[3], argv[4], argv[5], &m, &hm);
 	fclose(f);
