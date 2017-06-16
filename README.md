@@ -1,4 +1,4 @@
-# scandir
+# directory-scanner
 
 * streams data from files and 
 * pipes into a comma-separated table.

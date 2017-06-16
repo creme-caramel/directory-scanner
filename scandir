@@ -96,7 +96,7 @@ EOS
 			echo $lane >> $temp
 			echo $mid >> $temp
 			(( smplid++ ))
-			./scan $to_csv_path$to_csv_filename.db ${1}/${file} $temp $grps_raw $num_gr_contaminated >> ${to_csv_path}groups_with_true_mut_$timestamp $smplid
+			./scan $to_csv_path$to_csv_filename.db ${1}/${file} $temp $grps_raw $num_gr_contaminated >> ${to_csv_path}groups_with_true_mut_subst_only_$timestamp $smplid
 			rm -f $temp
 		fi
 	done
